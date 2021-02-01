@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ZoomView">
+        <attr name="max_zoom" format="float"/>
+
+        <attr name="minimap_enabled" format="boolean"/>
+        <attr name="minimap_height" format="dimension"/>
+        <attr name="minimap_in_border_size" format="dimension"/>
+        <attr name="minimap_in_border_color" format="reference|color"/>
+        <attr name="minimap_out_border_size" format="dimension"/>
+        <attr name="minimap_out_border_color" format="reference|color"/>
+        <attr name="image_in_minimap" format="boolean"/>
+
+        <attr name="minimap_margin_left" format="dimension"/>
+        <attr name="minimap_margin_right" format="dimension"/>
+        <attr name="minimap_margin_top" format="dimension"/>
+        <attr name="minimap_margin_bottom" format="dimension"/>
+        <attr name="minimap_margin" format="dimension"/>
+
+        <attr name="minimap_gravity">
+            <flag name="left" value="1"/>
+            <flag name="right" value="2"/>
+            <flag name="top" value="4"/>
+            <flag name="bottom" value="8"/>
+        </attr>
+
+        <attr name="touchable" format="boolean"/>
+
+        <attr name="scaleType">
+            <enum name="matrix" value="0" />
+            <enum name="fitXY" value="1" />
+            <enum name="fitStart" value="2" />
+            <enum name="fitCenter" value="3" />
+            <enum name="fitEnd" value="4" />
+            <enum name="center" value="5" />
+            <enum name="centerCrop" value="6" />
+            <enum name="centerInside" value="7" />
+        </attr>
+
+    </declare-styleable>
+
+</resources>
