@@ -32,7 +32,7 @@ dependencies {
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ycpark.zoomview.ZoomView
+    <ai.deepfine.ycpark.ZoomView
         android:id="@+id/zoom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,7 +58,7 @@ dependencies {
                 android:layout_height="match_parent"
                 android:src="@drawable/sample" />
         </FrameLayout>
-    </com.ycpark.zoomview.ZoomView>
+    </ai.deepfine.ycpark.ZoomView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
