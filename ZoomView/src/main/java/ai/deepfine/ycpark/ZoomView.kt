@@ -25,8 +25,7 @@ class ZoomView : FrameLayout {
     //==============================================================================================
     private val TAG = "ZoomView"
 
-    private val DEFAULT_SCALE_TYPE = ImageView.ScaleType.CENTER_CROP
-    private val DEFAULT_GRAVITY = 6
+    private val DEFAULT_GRAVITY = MINIMAP_GRAVITY_TOP and MINIMAP_GRAVITY_RIGHT
 
     // attrs
     var miniMapEnabled = false
@@ -45,11 +44,14 @@ class ZoomView : FrameLayout {
     var imageInMiniMap = false
     var touchable = false
 
+    companion object{
+        private val MINIMAP_GRAVITY_LEFT = 2.0F.pow(0).toInt()
+        private val MINIMAP_GRAVITY_RIGHT = 2.0F.pow(1).toInt()
+        private val MINIMAP_GRAVITY_TOP = 2.0F.pow(2).toInt()
+        private val MINIMAP_GRAVITY_BOTTOM = 2.0F.pow(3).toInt()
+    }
     // gravity constants
-    private val MINIMAP_GRAVITY_LEFT = 2.0F.pow(0).toInt()
-    private val MINIMAP_GRAVITY_RIGHT = 2.0F.pow(1).toInt()
-    private val MINIMAP_GRAVITY_TOP = 2.0F.pow(2).toInt()
-    private val MINIMAP_GRAVITY_BOTTOM = 2.0F.pow(3).toInt()
+
 
     // touching variables
     private var lastTapTime = 0L
@@ -159,38 +161,6 @@ class ZoomView : FrameLayout {
     }
 
     //==============================================================================================
-    // Control Image Resources
-    //==============================================================================================
-    fun setImageResource(bitmap: Bitmap) {
-        setImage(bitmap)
-    }
-
-    fun setImageResource(drawableId: Int) {
-        setImage(BitmapFactory.decodeResource(context.resources, drawableId))
-    }
-
-    fun setImageResource(file: File) {
-        val fis = FileInputStream(file)
-        setImage(BitmapFactory.decodeStream(fis))
-    }
-
-    private fun resetSettings() {
-        if (childCount > 0)
-            removeAllViews()
-
-        smoothZoomTo(1.0F)
-    }
-
-    private fun setImage(bitmap: Bitmap) {
-        resetSettings()
-
-        this.mBitmap = bitmap
-//        imageView.setImageBitmap(bitmap)
-//        addView(imageView)
-    }
-
-
-    //==============================================================================================
     // Control Zoom
     //==============================================================================================
     fun getZoom() = mSmoothZoom
@@ -257,7 +227,6 @@ class ZoomView : FrameLayout {
             -clamp(0.5F * height / mZoom, zoomY, height - 0.5F * height / mZoom)
         )
 
-        // TODO
         val v: View = getChildAt(0)
 
         // draw using cache while animating
