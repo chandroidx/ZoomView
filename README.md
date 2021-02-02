@@ -63,10 +63,10 @@ dependencies {
 ```
 
 ```java
-zoomView.smoothZoomTo(float zoomLevel);
+zoomView.smoothZoomTo(zoomLevel: Float);
 
 // For custom movement
-zoomView.move(int coordX, int coordY);
+zoomView.move(coordX: Int, coordY: Int);
 ```
 
 ![example](https://user-images.githubusercontent.com/58277725/101324013-e1dfc100-38ac-11eb-9daf-9b231e0de6a4.jpg)
