@@ -25,30 +25,30 @@ class ZoomView : FrameLayout {
     //==============================================================================================
     private val TAG = "ZoomView"
 
-    private val DEFAULT_GRAVITY = MINIMAP_GRAVITY_TOP and MINIMAP_GRAVITY_RIGHT
+    private val DEFAULT_GRAVITY = MINIMAP_GRAVITY_TOP or MINIMAP_GRAVITY_RIGHT
 
     // attrs
-    var miniMapEnabled = false
-    var miniMapHeight = 0
-    var maxZoom = 0F
-    var miniMapInBorderSize = 0
-    var miniMapInBorderColor = 0
-    var miniMapOutBorderSize = 0
-    var miniMapOutBorderColor = 0
-    private var miniMapGravity = 0
-    private var miniMapMargin = 0
-    private var miniMapMarginTop = 0
+    var miniMapEnabled              = false
+    var miniMapHeight               = 0
+    var maxZoom                     = 0F
+    var miniMapInBorderSize         = 0
+    var miniMapInBorderColor        = 0
+    var miniMapOutBorderSize        = 0
+    var miniMapOutBorderColor       = 0
+    private var miniMapGravity      = 0
+    private var miniMapMargin       = 0
+    private var miniMapMarginTop    = 0
     private var miniMapMarginBottom = 0
-    private var miniMapMarginLeft = 0
-    private var miniMapMarginRight = 0
-    var imageInMiniMap = false
-    var touchable = false
+    private var miniMapMarginLeft   = 0
+    private var miniMapMarginRight  = 0
+    var imageInMiniMap              = false
+    var touchable                   = false
 
-    companion object{
-        private val MINIMAP_GRAVITY_LEFT = 2.0F.pow(0).toInt()
-        private val MINIMAP_GRAVITY_RIGHT = 2.0F.pow(1).toInt()
-        private val MINIMAP_GRAVITY_TOP = 2.0F.pow(2).toInt()
-        private val MINIMAP_GRAVITY_BOTTOM = 2.0F.pow(3).toInt()
+    companion object {
+        private val MINIMAP_GRAVITY_LEFT    = 2.0F.pow(0).toInt()
+        private val MINIMAP_GRAVITY_RIGHT   = 2.0F.pow(1).toInt()
+        private val MINIMAP_GRAVITY_TOP     = 2.0F.pow(2).toInt()
+        private val MINIMAP_GRAVITY_BOTTOM  = 2.0F.pow(3).toInt()
     }
     // gravity constants
 
@@ -57,24 +57,24 @@ class ZoomView : FrameLayout {
     private var lastTapTime = 0L
     private var touchStartX = 0F
     private var touchStartY = 0F
-    private var touchLastX = 0F
-    private var touchLastY = 0F
-    private var startd = 0F
-    private var pinching = false
-    private var lastd = 0F
-    private var lastdx1 = 0F
-    private var lastdx2 = 0F
-    private var lastdy1 = 0F
-    private var lastdy2 = 0F
-    private var scrolling = false
+    private var touchLastX  = 0F
+    private var touchLastY  = 0F
+    private var startd      = 0F
+    private var pinching    = false
+    private var lastd       = 0F
+    private var lastdx1     = 0F
+    private var lastdx2     = 0F
+    private var lastdy1     = 0F
+    private var lastdy2     = 0F
+    private var scrolling   = false
 
     // miniMap Variables
     private val m = Matrix()
     private val p = Paint()
-    private var mZoom = 1.0F
+    private var mZoom       = 1.0F
     private var mSmoothZoom = 1.0f
-    private var zoomX = 0F
-    private var zoomY = 0F
+    private var zoomX       = 0F
+    private var zoomY       = 0F
     private var smoothZoomX = 0F
     private var smoothZoomY = 0F
     private var ch: Bitmap? = null
@@ -104,7 +104,8 @@ class ZoomView : FrameLayout {
     }
 
     private fun getAttrs(attrs: AttributeSet?) {
-        val typedArray = context.obtainStyledAttributes(attrs,
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
             R.styleable.ZoomView
         )
         setTypedArray(typedArray)
@@ -112,52 +113,56 @@ class ZoomView : FrameLayout {
 
     private fun getAttrs(attrs: AttributeSet?, defStyleAttr: Int) {
         val typedArray =
-            context.obtainStyledAttributes(attrs,
-                R.styleable.ZoomView, defStyleAttr, 0)
+            context.obtainStyledAttributes(
+                attrs,
+                R.styleable.ZoomView, defStyleAttr, 0
+            )
         setTypedArray(typedArray)
     }
 
     private fun setTypedArray(typedArray: TypedArray) {
-        maxZoom = typedArray.getFloat(R.styleable.ZoomView_max_zoom, 5F)
-        miniMapEnabled = typedArray.getBoolean(R.styleable.ZoomView_minimap_enabled, false)
-        tempMiniMapEnabled = miniMapEnabled
+        with(typedArray) {
+            maxZoom = getFloat(R.styleable.ZoomView_max_zoom, 5F)
+            miniMapEnabled = getBoolean(R.styleable.ZoomView_minimap_enabled, false)
+            tempMiniMapEnabled = miniMapEnabled
 
-        // miniMap width is automatically set by height
-        miniMapHeight = typedArray.getDimensionPixelSize(
-            R.styleable.ZoomView_minimap_height,
-            convertDpToPixel(120)
-        )
+            // miniMap width is automatically set by height
+            miniMapHeight = getDimensionPixelSize(
+                R.styleable.ZoomView_minimap_height,
+                convertDpToPixel(120)
+            )
 
-        miniMapOutBorderSize = typedArray.getDimensionPixelSize(
-            R.styleable.ZoomView_minimap_out_border_size,
-            convertDpToPixel(3)
-        )
-        miniMapInBorderSize = typedArray.getDimensionPixelSize(
-            R.styleable.ZoomView_minimap_in_border_size,
-            convertDpToPixel(3)
-        )
-        miniMapOutBorderColor =
-            typedArray.getColor(R.styleable.ZoomView_minimap_out_border_color, Color.WHITE)
-        miniMapInBorderColor =
-            typedArray.getColor(R.styleable.ZoomView_minimap_in_border_color, Color.BLACK)
+            miniMapOutBorderSize = getDimensionPixelSize(
+                R.styleable.ZoomView_minimap_out_border_size,
+                convertDpToPixel(3)
+            )
+            miniMapInBorderSize = getDimensionPixelSize(
+                R.styleable.ZoomView_minimap_in_border_size,
+                convertDpToPixel(3)
+            )
+            miniMapOutBorderColor =
+                getColor(R.styleable.ZoomView_minimap_out_border_color, Color.WHITE)
+            miniMapInBorderColor =
+                getColor(R.styleable.ZoomView_minimap_in_border_color, Color.BLACK)
 
-        // set image into miniMap
-        imageInMiniMap = typedArray.getBoolean(R.styleable.ZoomView_image_in_minimap, true)
+            // set image into miniMap
+            imageInMiniMap = getBoolean(R.styleable.ZoomView_image_in_minimap, true)
 
-        // set default gravity right|top
-        miniMapGravity =
-            typedArray.getInteger(R.styleable.ZoomView_minimap_gravity, DEFAULT_GRAVITY)
-        miniMapMargin = typedArray.getDimensionPixelSize(R.styleable.ZoomView_minimap_margin, 0)
-        miniMapMarginTop =
-            typedArray.getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_top, 0)
-        miniMapMarginBottom =
-            typedArray.getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_bottom, 0)
-        miniMapMarginLeft =
-            typedArray.getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_left, 0)
-        miniMapMarginRight =
-            typedArray.getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_right, 0)
+            // set default gravity right|top
+            miniMapGravity =
+                getInteger(R.styleable.ZoomView_minimap_gravity, DEFAULT_GRAVITY)
+            miniMapMargin = getDimensionPixelSize(R.styleable.ZoomView_minimap_margin, 0)
+            miniMapMarginTop =
+                getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_top, 0)
+            miniMapMarginBottom =
+                getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_bottom, 0)
+            miniMapMarginLeft =
+                getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_left, 0)
+            miniMapMarginRight =
+                getDimensionPixelSize(R.styleable.ZoomView_minimap_margin_right, 0)
 
-        touchable = typedArray.getBoolean(R.styleable.ZoomView_touchable, false)
+            touchable = getBoolean(R.styleable.ZoomView_touchable, false)
+        }
     }
 
     //==============================================================================================
@@ -235,10 +240,13 @@ class ZoomView : FrameLayout {
             canvas!!.drawBitmap(ch!!, m, p)
         } else {
             ch = null
-            canvas!!.save()
-            canvas.concat(m)
-            v.draw(canvas)
-            canvas.restore()
+
+            with(canvas!!) {
+                save()
+                concat(m)
+                v.draw(this)
+                restore()
+            }
         }
 
         // draw miniMap
@@ -261,27 +269,29 @@ class ZoomView : FrameLayout {
 
             // MiniMap out border
             p.color = miniMapOutBorderColor
-            canvas.drawRect(
-                (-miniMapOutBorderSize).toFloat(),
-                (-miniMapOutBorderSize).toFloat(), w + miniMapOutBorderSize, 0F, p
-            )
-            // Top
-            canvas.drawRect(
-                (-miniMapOutBorderSize).toFloat(),
-                h.toFloat(), w + miniMapOutBorderSize, (h + miniMapOutBorderSize).toFloat(), p
-            )
-            // Bottom
-            canvas.drawRect(
-                (-miniMapOutBorderSize).toFloat(),
-                (-miniMapOutBorderSize).toFloat(), 0F, (h + miniMapOutBorderSize).toFloat(), p
-            )
-            // Left
-            canvas.drawRect(
-                w,
-                (-miniMapOutBorderSize).toFloat(), w + miniMapOutBorderSize,
-                (h + miniMapOutBorderSize).toFloat(), p
-            )
-            // Right
+
+            with(canvas) {
+                drawRect(
+                    (-miniMapOutBorderSize).toFloat(),
+                    (-miniMapOutBorderSize).toFloat(), w + miniMapOutBorderSize, 0F, p
+                )
+
+                drawRect(
+                    (-miniMapOutBorderSize).toFloat(),
+                    h.toFloat(), w + miniMapOutBorderSize, (h + miniMapOutBorderSize).toFloat(), p
+                )
+
+                drawRect(
+                    (-miniMapOutBorderSize).toFloat(),
+                    (-miniMapOutBorderSize).toFloat(), 0F, (h + miniMapOutBorderSize).toFloat(), p
+                )
+
+                drawRect(
+                    w,
+                    (-miniMapOutBorderSize).toFloat(), w + miniMapOutBorderSize,
+                    (h + miniMapOutBorderSize).toFloat(), p
+                )
+            }
 
             p.color = 0x80000000.toInt() or 0x00ffffff and miniMapColor
 
@@ -289,66 +299,69 @@ class ZoomView : FrameLayout {
             val dy = h * zoomY / height
 
             // for highlight image
-            canvas.drawRect(
-                dx - 0.5F * w / mZoom,
-                0F,
-                dx + 0.5F * w / mZoom,
-                dy - 0.5F * h / mZoom,
-                p
-            )
-            // Top
-            canvas.drawRect(
-                dx - 0.5F * w / mZoom, dy + 0.5F * h / mZoom, dx + 0.5F * w / mZoom,
-                h.toFloat(), p
-            )
-            // Bottom
-            canvas.drawRect(
-                0F,
-                0F,
-                dx - 0.5F * w / mZoom,
-                h.toFloat(),
-                p
-            )
-            // Left
-            canvas.drawRect(dx + 0.5F * w / mZoom, 0F, w, h.toFloat(), p)
+            with(canvas) {
+                drawRect(
+                    dx - 0.5F * w / mZoom,
+                    0F,
+                    dx + 0.5F * w / mZoom,
+                    dy - 0.5F * h / mZoom,
+                    p
+                )
+
+                drawRect(
+                    dx - 0.5F * w / mZoom, dy + 0.5F * h / mZoom, dx + 0.5F * w / mZoom,
+                    h.toFloat(), p
+                )
+
+                drawRect(
+                    0F,
+                    0F,
+                    dx - 0.5F * w / mZoom,
+                    h.toFloat(),
+                    p
+                )
+
+                drawRect(dx + 0.5F * w / mZoom, 0F, w, h.toFloat(), p)
+            }
 
 
             // miniMap in border
             p.color = miniMapInBorderColor
-            canvas.drawRect(
-                dx - 0.5F * w / mZoom,
-                dy - 0.5F * h / mZoom,
-                dx + 0.5F * w / mZoom,
-                dy - 0.5F * h / mZoom + miniMapInBorderSize,
-                p
-            )
-            // Top
-            canvas.drawRect(
-                dx - 0.5F * w / mZoom,
-                dy + 0.5F * h / mZoom - miniMapInBorderSize,
-                dx + 0.5F * w / mZoom,
-                dy + 0.5F * h / mZoom,
-                p
-            )
-            // Bottom
-            canvas.drawRect(
-                dx - 0.5F * w / mZoom,
-                dy - 0.5F * h / mZoom,
-                dx - 0.5F * w / mZoom + miniMapInBorderSize,
-                dy + 0.5F * h / mZoom,
-                p
-            )
-            // Left
-            canvas.drawRect(
-                dx + 0.5F * w / mZoom - miniMapInBorderSize,
-                dy - 0.5F * h / mZoom,
-                dx + 0.5F * w / mZoom,
-                dy + 0.5F * h / mZoom,
-                p
-            )
 
-            // Right
-            canvas.translate(-10.0f, -10.0f);
+            with(canvas) {
+                drawRect(
+                    dx - 0.5F * w / mZoom,
+                    dy - 0.5F * h / mZoom,
+                    dx + 0.5F * w / mZoom,
+                    dy - 0.5F * h / mZoom + miniMapInBorderSize,
+                    p
+                )
+                drawRect(
+                    dx - 0.5F * w / mZoom,
+                    dy + 0.5F * h / mZoom - miniMapInBorderSize,
+                    dx + 0.5F * w / mZoom,
+                    dy + 0.5F * h / mZoom,
+                    p
+                )
+
+                drawRect(
+                    dx - 0.5F * w / mZoom,
+                    dy - 0.5F * h / mZoom,
+                    dx - 0.5F * w / mZoom + miniMapInBorderSize,
+                    dy + 0.5F * h / mZoom,
+                    p
+                )
+
+                drawRect(
+                    dx + 0.5F * w / mZoom - miniMapInBorderSize,
+                    dy - 0.5F * h / mZoom,
+                    dx + 0.5F * w / mZoom,
+                    dy + 0.5F * h / mZoom,
+                    p
+                )
+
+                translate(-10.0F, -10.0F)
+            }
         }
 
         // redraw

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ZoomViewDemo">
-        <activity android:name="com.github.zoomviewdemo.ai.github.zoomviewdemo.MainActivity">
+        <activity android:name="ai.deepfine.zoomviewdemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

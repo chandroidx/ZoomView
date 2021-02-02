@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun zoomIn(view : View){
+    fun zoomIn(view: View) {
         zoomView.smoothZoomTo(2.0F)
     }
 
-    fun zoomOut(view : View){
+    fun zoomOut(view: View) {
         zoomView.smoothZoomTo(1.0F)
-}
+    }
 }
